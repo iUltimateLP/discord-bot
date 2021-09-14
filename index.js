@@ -28,6 +28,8 @@ player.on('connectionError', (queue, error) => {
 
 player.on('trackStart', (queue, track) => {
   queue.metadata.send(`🎶 | Started playing: **${track.title}** in **${queue.connection.channel.name}**!`);
+
+  client.user.setActivity(track.title, { type: "LISTENING" });
 });
 
 player.on('trackAdd', (queue, track) => {
@@ -44,10 +46,14 @@ player.on('channelEmpty', queue => {
 
 player.on('queueEnd', queue => {
   queue.metadata.send('✅ | Queue finished!');
+
+  client.user.setActivity("/play", { type: "LISTENING" });
 });
 
 client.once('ready', async () => {
   console.log('Ready!');
+
+  client.user.setActivity("/play", { type: "LISTENING" });
 });
 
 client.once('reconnecting', () => {
